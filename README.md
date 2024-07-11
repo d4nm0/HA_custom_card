@@ -11,7 +11,7 @@ This repository contains several custom cards that you can use in your Home Assi
 ![Media Player Apple Tv card](https://github.com/d4nm0/HA_custom_card/blob/main/images/media_player.png?raw=true)
 
 - HHOLOVE Litter box
-![HHOLOVE Litter box](https://github.com/d4nm0/HA_custom_card/blob/main/images/hholove_litter.png?raw=true)
+![HHOLOVE Litter box](https://github.com/d4nm0/HA_custom_card/blob/main/images/hholove_litter_img.png?raw=true)
 
 for the connect litter map i use the extension tuya xtend :  [Link](https://github.com/azerty9971/xtend_tuya)
 
