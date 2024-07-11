@@ -1,0 +1,356 @@
+- id: '1700747413646'
+  alias: Calendrier Ramassage des poubelles
+  description: ''
+  trigger:
+  - platform: calendar
+    event: start
+    offset: '-1:0:0'
+    entity_id: calendar.ramassage_poubelle
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_dan
+    data:
+      message: Pense a sortir les poubelles
+      title: Ramassage des poubelles
+  mode: single
+- id: '1701185457630'
+  alias: TempTrajetTravailDanSms
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:15:00
+  condition: []
+  action:
+  - service: notify.sms_free
+    data:
+      message: Il te faut  {{     states('sensor.dan_travail') }} minutes pour te
+        rendre aux travails
+  mode: single
+- id: '1701187693884'
+  alias: takeSnapAndSend
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 6a2cc8c70f226dfb154a61ebe4577dd4
+    entity_id: 390882e2121c0fcad005282ef38ca019
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: camera.snapshot
+    data:
+      filename: /media/camera/snapshot_CamEnter.jpg
+    target:
+      device_id: 6a2cc8c70f226dfb154a61ebe4577dd4
+  - service: camera.snapshot
+    data:
+      entity_id: camera.porte_d_entree
+      filename: /media/camera/archive/snapshot_CamEnter_{{ now().strftime("%Hh%M_%d-%m-%Y")
+        }}.jpg
+  - delay: 00:00:01
+  - service: notify.mobile_app_iphone_dan
+    data:
+      title: CamEnter  {{now().strftime('(%H:%M) [%d-%m-%Y]')}}
+      message: Un mouvement dans la cour a été détecter
+      data:
+        image: /media/local/camera/snapshot_CamEnter.jpg
+        entity_id: camera.porte_d_entree
+  - service: delete.files_in_folder
+    data:
+      folder: /media/camera/archive
+      only_extensions:
+      - .jpg
+      time: 2419200
+  - service: notify.sms_free
+    data:
+      message: Un mouvement dans la cour a été détecter
+  mode: single
+- id: '1701252722457'
+  alias: takeAndSenArrCam
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 6d0b7a6a0ef2f30aa84142b6440275a6
+    entity_id: 1c123bd7b0c66bf14fde8efc9bb761b7
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: camera.snapshot
+    data:
+      filename: /media/camera/snapshot_CamArr.jpg
+    target:
+      entity_id: camera.arriere_cour
+  - service: camera.snapshot
+    data:
+      entity_id: camera.arriere_cour
+      filename: /media/camera/archive/snapshot_CamArr_{{ now().strftime("%Hh%M_%d-%m-%Y")
+        }}.jpg
+  - delay: 00:00:01
+  - service: notify.notify
+    data:
+      title: CamArr  {{now().strftime('(%H:%M) [%d-%m-%Y]')}}
+      message: Un mouvement dans la cour arrière a été détecter
+      data:
+        image: /media/local/camera/snapshot_CamArr.jpg
+        entity_id: camera.arriere_cour
+  - service: delete.files_in_folder
+    data:
+      folder: /media/camera/archive
+      only_extensions:
+      - .jpg
+      time: 2419200
+  - service: notify.sms_free
+    data:
+      message: Un mouvement dans la cour arrière a été détecter
+  mode: single
+- id: '1701291170277'
+  alias: test ntofi
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 6a2cc8c70f226dfb154a61ebe4577dd4
+    entity_id: 390882e2121c0fcad005282ef38ca019
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_dan
+    data:
+      title: CamEnter  {{now().strftime('(%H:%M) [%d-%m-%Y]')}}
+      message: Un mouvement dans la cour a été détecter
+      data:
+        image: /api/image_proxy/image.porte_d_entree_event_image
+  - service: notify.sms_free
+    data:
+      message: Un mouvement dans la cour a été détecter
+  mode: single
+- id: '1701291888333'
+  alias: FinalNotifCamAvant
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 6a2cc8c70f226dfb154a61ebe4577dd4
+    entity_id: e23d26c3525813f91b5aa7d7a645f9ea
+    domain: binary_sensor
+  condition: []
+  action:
+  - delay: 00:00:01
+  - service: notify.notify
+    data:
+      title: CamEnter  {{now().strftime('(%H:%M) [%d-%m-%Y]')}}
+      message: Un mouvement dans la cour a été détecter
+      data:
+        image: /api/image_proxy/image.porte_d_entree_event_image
+  - service: notify.sms_free
+    data:
+      message: Un mouvement dans la cour a été détecter
+  mode: single
+- id: '1701292012892'
+  alias: FinalNotifCamArriere
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 6d0b7a6a0ef2f30aa84142b6440275a6
+    entity_id: c11e79d976c610f90e8cf877194895ce
+    domain: binary_sensor
+  condition: []
+  action:
+  - delay: 00:00:01
+  - service: notify.notify
+    data:
+      title: CamEnter  {{now().strftime('(%H:%M) [%d-%m-%Y]')}}
+      message: Un mouvement dans la cour arrière a été détecter
+      data:
+        image: /api/image_proxy/image.arriere_cour_event_image
+  - service: notify.sms_free
+    data:
+      message: Un mouvement dans la cour arrière a été détecter
+  mode: single
+- id: '1718564298716'
+  alias: Allumer terrarium
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 875adf6c5680a9f3173296745cfb6730
+    entity_id: f52d333df9100bdea714f10fa00b3167
+    domain: switch
+  mode: single
+- id: '1718598250505'
+  alias: Éteindre terrarium
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:01:00
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 875adf6c5680a9f3173296745cfb6730
+    entity_id: f52d333df9100bdea714f10fa00b3167
+    domain: switch
+  mode: single
+- id: '1720101493388'
+  alias: Imprimante encre noir
+  description: ''
+  trigger:
+  - type: value
+    platform: device
+    device_id: 87e5b562b6a4381c010d362130db3df3
+    entity_id: 4f548f6d7fee472199fb42f1d0da07eb
+    domain: sensor
+    below: 20
+  condition: []
+  action:
+  - service: notify.notify
+    metadata: {}
+    data:
+      message: L'imprimante n'a bientôt plus d'encre noir
+      title: Imprimante
+  mode: single
+- id: '1720101529797'
+  alias: Imprimante encre cyan
+  description: ''
+  trigger:
+  - type: value
+    platform: device
+    device_id: 87e5b562b6a4381c010d362130db3df3
+    entity_id: 87e3bcc16c8c0bd4f91cca2dc29fb6bf
+    domain: sensor
+    below: 20
+  condition: []
+  action:
+  - service: notify.notify
+    metadata: {}
+    data:
+      message: L'imprimante n'a bientôt plus d'encre cyan
+      title: Imprimante
+  mode: single
+- id: '1720101594452'
+  alias: Imprimante encre magenta
+  description: ''
+  trigger:
+  - type: value
+    platform: device
+    device_id: 87e5b562b6a4381c010d362130db3df3
+    entity_id: 566d74ee9925f18fa564b756645b125a
+    domain: sensor
+    below: 20
+  condition: []
+  action:
+  - service: notify.notify
+    metadata: {}
+    data:
+      message: L'imprimante n'a bientôt plus d'encre magenta
+      title: Imprimante
+  mode: single
+- id: '1720101626435'
+  alias: Imprimante encre yellow
+  description: ''
+  trigger:
+  - type: value
+    platform: device
+    device_id: 87e5b562b6a4381c010d362130db3df3
+    entity_id: 1ee355746e6765000e23dda0069ec83c
+    domain: sensor
+    below: 20
+  condition: []
+  action:
+  - service: notify.notify
+    metadata: {}
+    data:
+      message: L'imprimante n'a bientôt plus d'encre yellow
+      title: Imprimante
+  mode: single
+- id: '1720302558564'
+  alias: Machine a laver - Debut cycle
+  description: ''
+  trigger:
+  - type: power
+    platform: device
+    device_id: 146a99e3b19dabdd4074b1c6e7e52c9f
+    entity_id: 296ad8d9a58619bc7029de35d4a4c6ac
+    domain: sensor
+    above: 2
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.cycle_machine
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.cycle_machine
+  - service: input_datetime.set_datetime
+    data:
+      entity_id: input_datetime.debut_machine
+      timestamp: '{{ now().timestamp() }}'
+  - service: notify.notify
+    metadata: {}
+    data:
+      title: Début du cycle de la machine à laver
+      message: La machine à laver a démarré un nouveau cycle. Vos vêtements seront
+        bientôt propres !
+  mode: single
+- id: '1720302801563'
+  alias: Machine a laver - Fin cycle
+  description: ''
+  trigger:
+  - type: power
+    platform: device
+    device_id: 146a99e3b19dabdd4074b1c6e7e52c9f
+    entity_id: 296ad8d9a58619bc7029de35d4a4c6ac
+    domain: sensor
+    below: 3
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.cycle_machine
+  - service: input_datetime.set_datetime
+    data:
+      entity_id: input_datetime.fin_machine
+      timestamp: '{{ now().timestamp() }}'
+  - service: notify.notify
+    metadata: {}
+    data:
+      title: Fin du cycle de la machine à laver
+      message: Le cycle de la machine à laver est terminé. Vos vêtements sont prêts
+        à être retirés !
+  mode: single
+- id: '1720516066752'
+  alias: Litière a vidé
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.smart_litter_box_trash_status
+    from:
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.notify
+    metadata: {}
+    data:
+      title: 'Alerte : Litière à vider !'
+      message: La litière de votre animal est pleine et a besoin d'être vidée. Merci
+        de procéder au nettoyage pour assurer le confort de votre animal et maintenir
+        un environnement propre.
+  mode: single
