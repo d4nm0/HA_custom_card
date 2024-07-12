@@ -46,8 +46,18 @@ cards:
         icon_height: 30px
       - type: entity
         entity: sensor.cat_enters_last_24_hours
-        name: Fréquence
+        name: ' '
         icon: mdi:emoticon-poop
+        card_mod:
+          style: |
+            ha-card {
+                text-align: center;
+            }
+            .header, .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
       - type: button
         tap_action:
           action: call-service
