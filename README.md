@@ -20,3 +20,6 @@ Addon [stack-in-card](https://github.com/custom-cards/stack-in-card) &&  [Local-
 - Camera card 
 ![Camera card](https://github.com/d4nm0/HA_custom_card/blob/main/images/camera.png?raw=true)
 Addon [stack-in-card](https://github.com/custom-cards/stack-in-card)
+
+- Electric solar card 
+![electric card](https://github.com/d4nm0/HA_custom_card/blob/main/images/solar.png?raw=true)
