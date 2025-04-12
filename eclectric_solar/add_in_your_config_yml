@@ -1,0 +1,11 @@
+sensor:
+  - platform: template
+    sensors:
+      panneaux_solaires_label:
+        value_template: "Panneaux solaires"
+      conso_label:
+        value_template: "Consommation"
+      battery_label:
+        value_template: "Stockage Batterie"
+      reseau_label:
+        value_template: "Réseau"
